@@ -17,10 +17,10 @@ class Point():
 
 # 初始化
 pygame.init()
-width = 640
-hight = 640
+width = 1280
+hight = 720
 
-ROW = 64
+ROW = 36
 CLO = 64
 
 direct = 'left'
@@ -41,7 +41,30 @@ def rect( point, color):
     pygame.draw.rect(window, color, (left, top, width / CLO, hight / ROW))
 quit = True
 clock = pygame.time.Clock()
+
+# 移动函数
+
+key_right_status = False
+key_left_status = False
+key_up_status = False
+key_down_status = False
+
+def move() :
+    if key_right_status:
+        body.clo += 1
+    if key_left_status:
+        body.clo -= 1
+    if key_down_status:
+        body.row += 1
+    if key_up_status:
+        body.row -= 1
+
+# 射击函数
+
+shoot = False
+
 while quit:
+
     # 帧率
 
     clock.tick(30)
@@ -52,20 +75,29 @@ while quit:
         elif event.type == pygame.KEYDOWN:
             # 这里小细节蛇不可以直接左右上下 要判断当前是在什么状态下前行
             if event.key == pygame.K_w:
-                body.row -= 1
+                key_up_status = True
             if event.key == pygame.K_a:
-                body.clo -= 1
+                key_left_status = True
             if event.key == pygame.K_d:
-                body.clo += 1
+                key_right_status = True
             if event.key == pygame.K_s:
-                body.row += 1
+                key_down_status = True
             if event.key == pygame.K_SPACE:
                 pause = not pause
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_w:
+                key_up_status = False
+            if event.key == pygame.K_a:
+                key_left_status = False
+            if event.key == pygame.K_d:
+                key_right_status = False
+            if event.key == pygame.K_s:
+                key_down_status = False
 
 
     # 吃东西
 
-
+    move()
 
     pygame.draw.rect(window, (245, 135, 155), (0, 0, width, hight))
     rect(body , body_color)
