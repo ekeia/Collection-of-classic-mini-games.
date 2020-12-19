@@ -2,17 +2,16 @@ from tkinter import *
 from tkinter.messagebox import *
 import  copy
 root = Tk()
-root.title(" 推箱子--夏敏捷")
+root.title("box")
 
-imgs= [PhotoImage(file='bmp\\Wall.gif'),
-       PhotoImage(file='bmp\\Worker.gif'),
-       PhotoImage(file='bmp\\Box.gif'),
-       PhotoImage(file='bmp\\Passageway.gif'),
-       PhotoImage(file='bmp\\Destination.gif'),
-       PhotoImage(file='bmp\\WorkerInDest.gif'),
-       PhotoImage(file='bmp\\RedBox.gif') ]
-#0代表墙，1代表人，2代表箱子，3代表路，4代表目的地
-#5代表人在目的地，6代表放到目的地的箱子
+imgs= [PhotoImage(file='boxbox\\Wall.gif'),
+       PhotoImage(file='boxbox\\Worker.gif'),
+       PhotoImage(file='boxbox\\Box.gif'),
+       PhotoImage(file='boxbox\\Passageway.gif'),
+       PhotoImage(file='boxbox\\Destination.gif'),
+       PhotoImage(file='boxbox\\WorkerInDest.gif'),
+       PhotoImage(file='boxbox\\RedBox.gif') ]
+
 Wall = 0
 Worker = 1 
 Box = 2
@@ -20,6 +19,7 @@ Passageway = 3
 Destination = 4
 WorkerInDest = 5
 RedBox = 6
+sum = False
 #原始地图
 myArray1 = [[0,3,1,4,3,3,3],
            [0,3,3,2,3,3,0],  
@@ -37,7 +37,7 @@ def drawGameImage( ):
             if myArray[i][j] == Worker :
                x=i  #工人当前位置(x,y)
                y=j
-               print("工人当前位置:",x,y)
+
             img1= imgs[myArray[i][j]]
             cv.create_image((i*32+20,j*32+20),image=img1)
             cv.pack()
@@ -45,7 +45,7 @@ def drawGameImage( ):
 
 def callback(event) :#按键处理
     global x,y,myArray
-    print ("按下键：", event.char)
+
     KeyCode = event.keysym
     #工人当前位置(x,y)	        
     if KeyCode=="Up":#分析按键消息
@@ -137,8 +137,10 @@ def MoveTo(x1, y1, x2, y2) :
         drawGameImage()
         #这里要验证是否过关
         if IsFinish() :
-            showinfo(title="提示",message=" 恭喜你顺利过关" ) 
-            print("下一关")
+            showinfo(title="successful",message=" Congratulations!" )
+            import terrorist
+
+
 
 def  MoveMan(x, y) :
     if myArray[x][y] == Worker :
@@ -176,6 +178,9 @@ cv = Canvas(root, bg = 'green', width = 226, height = 226)
 #drawQiPan( )
 myArray=copy.deepcopy(myArray1) 
 drawGameImage()
+
+
+
 
 cv.bind("<KeyPress>", callback)
 cv.pack()

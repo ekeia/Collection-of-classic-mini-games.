@@ -15,10 +15,14 @@ class Point():
         return Point(row=self.row, clo=self.clo)
 
 
+
+
 # 初始化
 pygame.init()
 width = 1280
 hight = 720
+
+sum = 0
 
 ROW = 36
 CLO = 64
@@ -29,10 +33,27 @@ pygame.display.set_caption('ManicShooter')
 
 # 身体坐标定在最下方的中间
 body = Point(row=int(ROW - 3), clo=int(CLO / 2))
+a = Point(row=int(ROW - 3), clo=int(CLO / 2))
 
 
 # 这是身体的颜色
 body_color = (0, 158, 128)
+
+def gen_food():
+    while 1:
+        position = Point(row=random.randint(0, ROW - 1), clo=random.randint(0, CLO - 1))
+        is_coll = False
+        if a.row == position.row and a.clo == position.clo:
+            is_coll = True
+        if not is_coll:
+            break
+    return position
+
+snakeFood = gen_food()
+
+# 食物颜色
+
+snakeFood_color = (255, 255, 0)
 
 # 需要执行很多步画图操作 所以定义一个函数
 def rect( point, color):
@@ -111,6 +132,12 @@ while quit:
 
 
     # 吃东西
+    eat = (a.row == snakeFood.row and a.clo == snakeFood.clo)
+
+    if eat:
+        snakeFood = gen_food()
+        sum = sum + 1
+
 
     move()
 
@@ -129,8 +156,11 @@ while quit:
         a = Point(bullerow - i, bulleclo)
         i += 1
         rect(a, body_color)
+    if sum >= 5 :
 
+        quit = False
+        import boxbox
 
-
+    rect(snakeFood, snakeFood_color)
 
     pygame.display.flip()

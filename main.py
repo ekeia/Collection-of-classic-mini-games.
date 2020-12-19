@@ -3,6 +3,7 @@ from sys import exit
 import random
 
 
+
 class Point():
     row = 0
     clo = 0
@@ -23,9 +24,11 @@ hight = 640
 ROW = 32
 CLO = 32
 
+sum = 0
+
 direct = 'left'
 window = pygame.display.set_mode((width, hight))
-pygame.display.set_caption('贪吃蛇游戏')
+pygame.display.set_caption('sneak')
 
 # 蛇头坐标定在中间
 head = Point(row=int(ROW / 2), clo=int(CLO / 2))
@@ -147,7 +150,7 @@ def rect(point, color):
 quit = True
 pause = False
 
-fps = 15
+fps = 10
 # 设置帧频率
 clock = pygame.time.Clock()
 while quit:
@@ -184,6 +187,7 @@ while quit:
     if not pause:
         if eat:
             snakeFood = gen_food()
+            sum = sum + 1
             fps += 2
 
         snake.insert(0, head    .copy())
@@ -216,7 +220,12 @@ while quit:
 
     if dead:
         print('Game Over')
+
         quit = False
+    if sum >= 5 :
+        import ManicShooter
+        quit = False
+
     # 背景画图
     pygame.draw.rect(window, (245, 135, 155), (0, 0, width, hight))
 

@@ -4,6 +4,7 @@ from pygame.locals import *
 import random
 
 class Block:
+    sum = 0
     blk_color = [(255, 255, 255),(255, 255, 0),(255, 0, 255),(0, 255, 255),(255, 0, 0),(0, 255, 0),(0, 0, 255),(32,32,32)]
     BLANK = 7
     type_coord=[[[-1,0],[0,0],[1,0],[2,0]]\
@@ -120,6 +121,7 @@ class App:
         TRS(screen)
         
     def main(self):
+        sum = 0
         clock = pygame.time.Clock()   # 创建游戏时钟
         count = 1
         # 进入游戏循环
@@ -145,10 +147,13 @@ class App:
                     TRS.check_drop()
             elif TRS.STATUS == 2:
                 TRS.check_clear()
+
                 TRS.STATUS = 0
 
             TRS.print_game()
             pygame.display.update()   #刷新屏幕
             count += 1
+
+
  
 App().main()
