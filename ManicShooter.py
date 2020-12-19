@@ -25,10 +25,12 @@ CLO = 64
 
 direct = 'left'
 window = pygame.display.set_mode((width, hight))
-pygame.display.set_caption('贪吃蛇游戏')
+pygame.display.set_caption('ManicShooter')
 
 # 身体坐标定在最下方的中间
 body = Point(row=int(ROW - 3), clo=int(CLO / 2))
+
+
 # 这是身体的颜色
 body_color = (0, 158, 128)
 
@@ -59,15 +61,27 @@ def move() :
     if key_up_status:
         body.row -= 1
 
+
+
+
+
 # 射击函数
 
 shoot = False
+
+cum = False
+
+i = 1
+
+
 
 while quit:
 
     # 帧率
 
     clock.tick(30)
+
+
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -83,7 +97,8 @@ while quit:
             if event.key == pygame.K_s:
                 key_down_status = True
             if event.key == pygame.K_SPACE:
-                pause = not pause
+                shoot = True
+                cum = True
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_w:
                 key_up_status = False
@@ -101,6 +116,20 @@ while quit:
 
     pygame.draw.rect(window, (245, 135, 155), (0, 0, width, hight))
     rect(body , body_color)
+
+
+    if cum :
+        bullerow = body.row-1
+        bulleclo = body.clo
+        cum = False
+        i = 0
+
+    if shoot :
+
+        a = Point(bullerow - i, bulleclo)
+        i += 1
+        rect(a, body_color)
+
 
 
 
